@@ -35,6 +35,39 @@ flask run --host 0.0.0.0 --port 5000
 
 Acesse `http://localhost:5000` para o painel principal e `http://localhost:5000/backend` para editar os prompts.
 
+Quando rodar em produção (por exemplo em plataformas que injetam a variável `PORT`), o entrypoint `wsgi.py`
+garante que o Gunicorn use automaticamente o valor fornecido, evitando telas em branco ou retornos do README
+quando o servidor web padrão da plataforma assume o controle do domínio.
+
+## Variáveis de ambiente
+
+Configure as credenciais e segredos utilizados pelo aplicativo antes de executar em produção.
+
+| Variável            | Descrição                                                                 |
+| ------------------- | ------------------------------------------------------------------------- |
+| `FLASK_SECRET_KEY`  | Valor usado para assinar os cookies de sessão do Flask.                   |
+| `OPENAI_API_KEY`    | Chave da API Vision da OpenAI (necessária quando integrar o serviço real). |
+| `GEMINI_API_KEY`    | Chave da API do modelo de geração de imagem (ex.: Gemini Nano-Banana).     |
+
+Um arquivo `.env.example` está incluído como referência. Copie-o para `.env` durante o desenvolvimento local e preencha os valores apropriados.
+
+## Implantação com GitHub Actions
+
+O repositório inclui um workflow (`.github/workflows/deploy.yml`) que:
+
+1. Executa uma checagem estática compilando os módulos Python;
+2. Constrói uma imagem Docker de produção;
+3. Publica a imagem no GitHub Container Registry (GHCR) com tags automáticas.
+
+Para habilitar o fluxo:
+
+1. Acesse **Settings → Secrets and variables → Actions** no GitHub.
+2. Em **Secrets**, crie as entradas `FLASK_SECRET_KEY`, `OPENAI_API_KEY` e `GEMINI_API_KEY` com os valores corretos.
+3. (Opcional) Adicione o mesmo trio em **Variables** caso deseje disponibilizá-los como variáveis de ambiente não sensíveis para jobs de QA.
+4. Garanta que o GitHub Packages esteja habilitado para a organização/usuário do repositório.
+
+Após cada push na branch `main`, o workflow enviará a imagem para `ghcr.io/<owner>/<repo>`. Use essa imagem como base para a plataforma de hospedagem de sua preferência (por exemplo, GitHub Environments, Azure Web Apps, Render, Fly.io etc.) fornecendo as variáveis de ambiente acima durante a execução do container.
+
 ## Estrutura de pastas
 
 ```
