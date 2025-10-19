@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="card">
+  <h2>Editar prompts</h2>
+  <form action="{{ url_for('update_prompts') }}" method="post" class="prompt-form">
+    <label for="analysis_prompt">Prompt para análise (OpenAI Vision)</label>
+    <textarea id="analysis_prompt" name="analysis_prompt" rows="6" required>{{ prompts.analysis_prompt }}</textarea>
+
+    <label for="enhancement_prompt">Prompt para geração (Gemini Nano-Banana)</label>
+    <textarea id="enhancement_prompt" name="enhancement_prompt" rows="6" required>{{ prompts.enhancement_prompt }}</textarea>
+
+    <button type="submit">Salvar alterações</button>
+  </form>
+  {% if prompts.updated_at %}
+    <p class="timestamp">Última atualização: {{ prompts.updated_at }}</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Resposta original do modelo</h2>
+  {% if raw_response %}
+    <pre class="raw-response">{{ raw_response }}</pre>
+  {% else %}
+    <p>Aguardando uma nova análise para exibir aqui.</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>JSON estruturado (pré-visualização)</h2>
+  {% if structured %}
+    <pre>{{ structured | tojson(indent=2, ensure_ascii=False) }}</pre>
+    {% if updated_at %}
+      <p class="timestamp">Gerado em {{ updated_at }}</p>
+    {% endif %}
+  {% else %}
+    <p>Nenhum resultado estruturado disponível.</p>
+  {% endif %}
+</section>
+{% endblock %}

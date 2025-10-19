@@ -1,0 +1,6 @@
+{
+  "analysis_prompt": "Identifique e descreva problemas odontológicos visíveis na foto, incluindo cáries, desalinhamentos, inflamações gengivais, fraturas e uso de aparelhos. Informe gravidade (leve, moderada, severa) e recomende ações clínicas.",
+  "enhancement_prompt": "Gere uma versão da imagem com dentes alinhados, gengivas saudáveis e clareamento natural, mantendo realismo clínico.
+",
+  "updated_at": null
+}
