@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="card">
+  <h2>Enviar avaliação odontológica</h2>
+  <form action="{{ url_for('handle_upload') }}" method="post" enctype="multipart/form-data" class="upload-form">
+    <label for="smile_photo" class="file-label">Foto do sorriso ou arcada dentária</label>
+    <input type="file" name="smile_photo" id="smile_photo" accept="image/*" required>
+    <button type="submit">Processar imagem</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Resultados estruturados</h2>
+  {% if structured %}
+    <div class="json-output">
+      <pre>{{ structured | tojson(indent=2, ensure_ascii=False) }}</pre>
+    </div>
+  {% else %}
+    <p>Nenhuma avaliação disponível ainda.</p>
+  {% endif %}
+</section>
+
+<section class="card gallery">
+  <h2>Antes e depois</h2>
+  <div class="images">
+    <div>
+      <h3>Original</h3>
+      {% if original_image %}
+        <img src="{{ url_for('static', filename=original_image) }}" alt="Foto original enviada">
+      {% else %}
+        <p>Envie uma imagem para visualizar aqui.</p>
+      {% endif %}
+    </div>
+    <div>
+      <h3>Corrigida (Nano-Banana)</h3>
+      {% if corrected_image %}
+        <img src="{{ url_for('static', filename=corrected_image) }}" alt="Imagem corrigida pela IA">
+      {% else %}
+        <p>O resultado aparecerá após o processamento.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

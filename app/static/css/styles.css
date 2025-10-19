@@ -1,0 +1,140 @@
+:root {
+  color-scheme: light dark;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --bg-color: #f5f7fb;
+  --card-bg: #ffffff;
+  --accent: #0d6efd;
+  --accent-dark: #0a58ca;
+  --text-color: #1f1f24;
+  --muted: #6c757d;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+.app-header {
+  background: linear-gradient(120deg, var(--accent), #69a3ff);
+  color: white;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-header nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1rem;
+  font-weight: 600;
+}
+
+.app-header nav a:hover {
+  text-decoration: underline;
+}
+
+main {
+  padding: 2rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+}
+
+.upload-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.upload-form input[type="file"] {
+  padding: 0.5rem;
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: var(--accent-dark);
+}
+
+.json-output pre,
+.raw-response {
+  background: #10141f;
+  color: #f1f5fb;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.flash-messages {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.flash {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
+
+.flash.success {
+  background: #d1e7dd;
+  color: #0f5132;
+}
+
+.flash.error {
+  background: #f8d7da;
+  color: #842029;
+}
+
+.gallery .images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.timestamp {
+  color: var(--muted);
+  margin-top: 0.75rem;
+}
+
+.app-footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--muted);
+}
