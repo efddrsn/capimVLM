@@ -14,9 +14,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 ENV FLASK_APP=app.app \
-    FLASK_ENV=production \
-    PORT=8000
+    FLASK_ENV=production
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT} wsgi:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app.app:app"]

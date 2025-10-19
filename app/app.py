@@ -25,11 +25,6 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("FLASK_SECRET_KEY", secrets.token_hex(16))
 
 
-def create_app() -> Flask:
-    """Factory used by WSGI servers and external tooling."""
-    return app
-
-
 @app.context_processor
 def inject_globals():
     return {"app_title": "Avaliação Odontológica Assistida"}

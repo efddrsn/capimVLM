@@ -35,10 +35,6 @@ flask run --host 0.0.0.0 --port 5000
 
 Acesse `http://localhost:5000` para o painel principal e `http://localhost:5000/backend` para editar os prompts.
 
-Quando rodar em produção (por exemplo em plataformas que injetam a variável `PORT`), o entrypoint `wsgi.py`
-garante que o Gunicorn use automaticamente o valor fornecido, evitando telas em branco ou retornos do README
-quando o servidor web padrão da plataforma assume o controle do domínio.
-
 ## Variáveis de ambiente
 
 Configure as credenciais e segredos utilizados pelo aplicativo antes de executar em produção.
