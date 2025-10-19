@@ -72,9 +72,9 @@ jobs:
       - name: Remind about runtime secrets
         run: |
           cat <<'MSG' >> $GITHUB_STEP_SUMMARY
-  ## Runtime configuration
-  Ensure the deployment environment provides the following variables:
-  - `FLASK_SECRET_KEY`
-  - `OPENAI_API_KEY`
-  - `GEMINI_API_KEY`
-  MSG
+          ## Runtime configuration
+          Ensure the deployment environment provides the following variables:
+          - `FLASK_SECRET_KEY`
+          - `OPENAI_API_KEY`
+          - `GEMINI_API_KEY`
+          MSG
