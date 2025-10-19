@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import secrets
 from pathlib import Path
 
@@ -21,7 +22,7 @@ UPLOADS_DIR = BASE_DIR / "static" / "uploads"
 ENHANCED_DIR = BASE_DIR / "static" / "enhanced"
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = secrets.token_hex(16)
+app.config["SECRET_KEY"] = os.getenv("FLASK_SECRET_KEY", secrets.token_hex(16))
 
 
 @app.context_processor
