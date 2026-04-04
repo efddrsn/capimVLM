@@ -1,0 +1,67 @@
+[
+  {
+    "id": "cli-001",
+    "nome": "OdontoVida Clínica",
+    "endereco": "Av. Paulista, 1578 - Bela Vista",
+    "cidade": "São Paulo, SP",
+    "avaliacao": 4.8,
+    "especialidades": ["Clínica Geral", "Implantes", "Ortodontia"],
+    "telefone": "(11) 3456-7890",
+    "whatsapp": "5511934567890",
+    "dias_disponivel": 2,
+    "latitude": -23.5629,
+    "longitude": -46.6544
+  },
+  {
+    "id": "cli-002",
+    "nome": "Sorriso Natural Odontologia",
+    "endereco": "R. da Consolação, 2300 - Consolação",
+    "cidade": "São Paulo, SP",
+    "avaliacao": 4.6,
+    "especialidades": ["Periodontia", "Endodontia", "Clínica Geral"],
+    "telefone": "(11) 2345-6789",
+    "whatsapp": "5511923456789",
+    "dias_disponivel": 3,
+    "latitude": -23.5558,
+    "longitude": -46.6625
+  },
+  {
+    "id": "cli-003",
+    "nome": "DentalCare Premium",
+    "endereco": "Av. Copacabana, 680 - Copacabana",
+    "cidade": "Rio de Janeiro, RJ",
+    "avaliacao": 4.9,
+    "especialidades": ["Estética Dental", "Implantes", "Prótese"],
+    "telefone": "(21) 3456-7890",
+    "whatsapp": "5521934567890",
+    "dias_disponivel": 1,
+    "latitude": -22.9711,
+    "longitude": -43.1822
+  },
+  {
+    "id": "cli-004",
+    "nome": "Centro Odontológico Saúde+",
+    "endereco": "R. dos Aimorés, 1451 - Lourdes",
+    "cidade": "Belo Horizonte, MG",
+    "avaliacao": 4.7,
+    "especialidades": ["Clínica Geral", "Ortodontia", "Periodontia"],
+    "telefone": "(31) 3456-7890",
+    "whatsapp": "5531934567890",
+    "dias_disponivel": 2,
+    "latitude": -19.9305,
+    "longitude": -43.9384
+  },
+  {
+    "id": "cli-005",
+    "nome": "Odonto Express",
+    "endereco": "Av. Boa Viagem, 3200 - Boa Viagem",
+    "cidade": "Recife, PE",
+    "avaliacao": 4.5,
+    "especialidades": ["Clínica Geral", "Endodontia", "Prótese"],
+    "telefone": "(81) 3456-7890",
+    "whatsapp": "5581934567890",
+    "dias_disponivel": 1,
+    "latitude": -8.1235,
+    "longitude": -34.9014
+  }
+]
