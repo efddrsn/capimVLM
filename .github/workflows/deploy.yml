@@ -1,4 +1,4 @@
-name: Build & Deploy
+name: CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,11 +29,4 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: nextjs-build
-          path: .next/
-          retention-days: 7
+          GEMINI_API_KEY: placeholder-for-ci-build
