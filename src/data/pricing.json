@@ -1,0 +1,130 @@
+{
+  "carie": {
+    "capitais": {
+      "procedimento": "Restauração em resina composta",
+      "faixa_min": 150,
+      "faixa_max": 500,
+      "fatores": "Tamanho da cavidade, localização do dente, material utilizado",
+      "cobertura_convenio": "A maioria dos convênios cobre restaurações básicas"
+    },
+    "interior": {
+      "procedimento": "Restauração em resina composta",
+      "faixa_min": 100,
+      "faixa_max": 350,
+      "fatores": "Tamanho da cavidade, localização do dente, material utilizado",
+      "cobertura_convenio": "A maioria dos convênios cobre restaurações básicas"
+    }
+  },
+  "tartaro": {
+    "capitais": {
+      "procedimento": "Limpeza / Profilaxia dental",
+      "faixa_min": 150,
+      "faixa_max": 400,
+      "fatores": "Quantidade de tártaro, necessidade de raspagem subgengival",
+      "cobertura_convenio": "Limpeza semestral geralmente coberta por convênios"
+    },
+    "interior": {
+      "procedimento": "Limpeza / Profilaxia dental",
+      "faixa_min": 80,
+      "faixa_max": 250,
+      "fatores": "Quantidade de tártaro, necessidade de raspagem subgengival",
+      "cobertura_convenio": "Limpeza semestral geralmente coberta por convênios"
+    }
+  },
+  "gengivite": {
+    "capitais": {
+      "procedimento": "Tratamento periodontal básico",
+      "faixa_min": 200,
+      "faixa_max": 600,
+      "fatores": "Extensão da inflamação, necessidade de sessões múltiplas",
+      "cobertura_convenio": "Tratamento periodontal básico geralmente coberto"
+    },
+    "interior": {
+      "procedimento": "Tratamento periodontal básico",
+      "faixa_min": 120,
+      "faixa_max": 400,
+      "fatores": "Extensão da inflamação, necessidade de sessões múltiplas",
+      "cobertura_convenio": "Tratamento periodontal básico geralmente coberto"
+    }
+  },
+  "retracao_gengival": {
+    "capitais": {
+      "procedimento": "Enxerto gengival / Tratamento periodontal",
+      "faixa_min": 800,
+      "faixa_max": 2500,
+      "fatores": "Extensão da retração, técnica cirúrgica, número de dentes",
+      "cobertura_convenio": "Cobertura parcial em alguns convênios premium"
+    },
+    "interior": {
+      "procedimento": "Enxerto gengival / Tratamento periodontal",
+      "faixa_min": 500,
+      "faixa_max": 1800,
+      "fatores": "Extensão da retração, técnica cirúrgica, número de dentes",
+      "cobertura_convenio": "Cobertura parcial em alguns convênios premium"
+    }
+  },
+  "fratura": {
+    "capitais": {
+      "procedimento": "Restauração / Coroa protética",
+      "faixa_min": 300,
+      "faixa_max": 2000,
+      "fatores": "Extensão da fratura, necessidade de canal, tipo de coroa",
+      "cobertura_convenio": "Restaurações cobertas; coroas podem ter coparticipação"
+    },
+    "interior": {
+      "procedimento": "Restauração / Coroa protética",
+      "faixa_min": 200,
+      "faixa_max": 1500,
+      "fatores": "Extensão da fratura, necessidade de canal, tipo de coroa",
+      "cobertura_convenio": "Restaurações cobertas; coroas podem ter coparticipação"
+    }
+  },
+  "dente_ausente": {
+    "capitais": {
+      "procedimento": "Implante dentário / Prótese",
+      "faixa_min": 2000,
+      "faixa_max": 6000,
+      "fatores": "Tipo de implante, necessidade de enxerto ósseo, localização",
+      "cobertura_convenio": "Implantes raramente cobertos. Próteses parcialmente cobertas"
+    },
+    "interior": {
+      "procedimento": "Implante dentário / Prótese",
+      "faixa_min": 1500,
+      "faixa_max": 4500,
+      "fatores": "Tipo de implante, necessidade de enxerto ósseo, localização",
+      "cobertura_convenio": "Implantes raramente cobertos. Próteses parcialmente cobertas"
+    }
+  },
+  "ma_oclusao": {
+    "capitais": {
+      "procedimento": "Tratamento ortodôntico",
+      "faixa_min": 3000,
+      "faixa_max": 10000,
+      "fatores": "Tipo de aparelho, duração do tratamento, complexidade",
+      "cobertura_convenio": "Alguns convênios cobrem ortodontia parcialmente"
+    },
+    "interior": {
+      "procedimento": "Tratamento ortodôntico",
+      "faixa_min": 2000,
+      "faixa_max": 7000,
+      "fatores": "Tipo de aparelho, duração do tratamento, complexidade",
+      "cobertura_convenio": "Alguns convênios cobrem ortodontia parcialmente"
+    }
+  },
+  "bruxismo": {
+    "capitais": {
+      "procedimento": "Placa miorrelaxante + Acompanhamento",
+      "faixa_min": 400,
+      "faixa_max": 1200,
+      "fatores": "Tipo de placa, material, necessidade de ajustes",
+      "cobertura_convenio": "Placa geralmente coberta por convênios"
+    },
+    "interior": {
+      "procedimento": "Placa miorrelaxante + Acompanhamento",
+      "faixa_min": 250,
+      "faixa_max": 800,
+      "fatores": "Tipo de placa, material, necessidade de ajustes",
+      "cobertura_convenio": "Placa geralmente coberta por convênios"
+    }
+  }
+}
