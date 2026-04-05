@@ -3,13 +3,18 @@
 import { useCallback, useState } from 'react';
 import type { AnalysisResult, AnalysisStep, ValidationResult } from '@/lib/types';
 
+interface AnalysisImage {
+  stepId: string;
+  base64: string;
+}
+
 interface UseAnalysisReturn {
   step: AnalysisStep;
   validationResult: ValidationResult | null;
   analysisResult: AnalysisResult | null;
   afterImage: string | null;
   error: string | null;
-  startAnalysis: (imageBase64: string) => Promise<void>;
+  startAnalysis: (images: AnalysisImage[]) => Promise<void>;
   reset: () => void;
 }
 
@@ -28,14 +33,17 @@ export function useAnalysis(): UseAnalysisReturn {
     setError(null);
   }, []);
 
-  const startAnalysis = useCallback(async (imageBase64: string) => {
+  const startAnalysis = useCallback(async (images: AnalysisImage[]) => {
     try {
-      // Step 1: Validate
+      // Use the frontal image as primary for validation
+      const primaryImage = images.find((img) => img.stepId === 'frente') || images[0];
+
+      // Step 1: Validate primary image
       setStep('validating');
       const validateRes = await fetch('/api/validate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: imageBase64 }),
+        body: JSON.stringify({ image: primaryImage.base64 }),
       });
 
       if (!validateRes.ok) throw new Error('Erro na validação da imagem');
@@ -49,12 +57,14 @@ export function useAnalysis(): UseAnalysisReturn {
         return;
       }
 
-      // Step 2: Analyze
+      // Step 2: Analyze all images
       setStep('analyzing');
       const analyzeRes = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: imageBase64 }),
+        body: JSON.stringify({
+          images: images.map((img) => ({ stepId: img.stepId, image: img.base64 })),
+        }),
       });
 
       if (!analyzeRes.ok) throw new Error('Erro na análise dental');
@@ -62,7 +72,7 @@ export function useAnalysis(): UseAnalysisReturn {
       const analysis: AnalysisResult = await analyzeRes.json();
       setAnalysisResult(analysis);
 
-      // Step 3: Generate before/after
+      // Step 3: Generate before/after using frontal image
       if (analysis.condicoes_identificadas.length > 0) {
         setStep('generating');
         try {
@@ -73,7 +83,7 @@ export function useAnalysis(): UseAnalysisReturn {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              image: imageBase64,
+              image: primaryImage.base64,
               conditions: analysis.condicoes_identificadas.map((c) => c.nome_popular),
             }),
             signal: controller.signal,

@@ -1,31 +1,49 @@
 import { NextResponse } from 'next/server';
 import { getGeminiClient, MODELS } from '@/lib/gemini';
-import { ANALYSIS_PROMPT } from '@/lib/prompts';
+import { ANALYSIS_PROMPT_SINGLE, getMultiImageAnalysisPrompt } from '@/lib/prompts';
+
+interface ImageInput {
+  stepId: string;
+  image: string;
+}
 
 export async function POST(request: Request) {
   try {
-    const { image } = await request.json();
-
-    if (!image) {
-      return NextResponse.json({ error: 'Imagem não fornecida' }, { status: 400 });
-    }
+    const body = await request.json();
 
     const client = getGeminiClient();
+
+    // Support both single image (legacy) and multi-image
+    const images: ImageInput[] = body.images || (body.image ? [{ stepId: 'frente', image: body.image }] : []);
+
+    if (images.length === 0) {
+      return NextResponse.json({ error: 'Nenhuma imagem fornecida' }, { status: 400 });
+    }
+
+    const isMulti = images.length > 1;
+    const prompt = isMulti
+      ? getMultiImageAnalysisPrompt(images.map((img) => img.stepId))
+      : ANALYSIS_PROMPT_SINGLE;
+
+    const parts: Array<{ text: string } | { inlineData: { mimeType: string; data: string } }> = [
+      { text: prompt },
+    ];
+
+    for (const img of images) {
+      parts.push({
+        inlineData: {
+          mimeType: 'image/jpeg',
+          data: img.image,
+        },
+      });
+    }
 
     const response = await client.models.generateContent({
       model: MODELS.vision,
       contents: [
         {
           role: 'user',
-          parts: [
-            { text: ANALYSIS_PROMPT },
-            {
-              inlineData: {
-                mimeType: 'image/jpeg',
-                data: image,
-              },
-            },
-          ],
+          parts,
         },
       ],
     });
