@@ -10,13 +10,16 @@ import QualityChecks from './QualityChecks';
 import PhotoPreview from './PhotoPreview';
 import Button from '../ui/Button';
 import { fileToBase64 } from '@/lib/image-utils';
+import type { OverlayRegion } from '@/lib/types';
 
 interface CameraCaptureProps {
   onPhotoReady: (base64: string, dataUrl: string) => void;
   loading?: boolean;
+  region?: OverlayRegion;
+  instructionText?: string;
 }
 
-export default function CameraCapture({ onPhotoReady, loading }: CameraCaptureProps) {
+export default function CameraCapture({ onPhotoReady, loading, region, instructionText }: CameraCaptureProps) {
   const { videoRef, canvasRef, isStreaming, error, startCamera, stopCamera, capturePhoto } = useCamera();
   const { checks, allPassed, passedDuration } = useImageQuality({ videoRef, isStreaming });
   const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
@@ -136,7 +139,7 @@ export default function CameraCapture({ onPhotoReady, loading }: CameraCapturePr
 
           {isStreaming && (
             <>
-              <CameraOverlay />
+              <CameraOverlay region={region} instructionText={instructionText} />
               <QualityChecks checks={checks} />
 
               {/* Countdown overlay */}

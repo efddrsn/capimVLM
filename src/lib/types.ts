@@ -61,3 +61,28 @@ export interface Clinic {
 }
 
 export type AnalysisStep = 'idle' | 'capturing' | 'validating' | 'analyzing' | 'generating' | 'done' | 'error';
+
+export type OverlayRegion = 'frontal' | 'lateral-direita' | 'lateral-esquerda' | 'superior' | 'inferior' | 'extra';
+
+export interface PhotoStep {
+  id: string;
+  label: string;
+  shortTip: string;
+  region: OverlayRegion;
+  optional?: boolean;
+}
+
+export interface CapturedPhoto {
+  stepId: string;
+  dataUrl: string;
+  base64: string;
+}
+
+export const PHOTO_STEPS: PhotoStep[] = [
+  { id: 'frente', label: 'Frente', shortTip: 'Cerre os dentes, puxe os lábios', region: 'frontal' },
+  { id: 'direito', label: 'Lado direito', shortTip: 'Puxe a bochecha direita', region: 'lateral-direita' },
+  { id: 'esquerdo', label: 'Lado esquerdo', shortTip: 'Puxe a bochecha esquerda', region: 'lateral-esquerda' },
+  { id: 'superior', label: 'De cima', shortTip: 'Abra a boca, incline a cabeça', region: 'superior' },
+  { id: 'inferior', label: 'De baixo', shortTip: 'Abra a boca, queixo para baixo', region: 'inferior' },
+  { id: 'extra', label: 'Extra', shortTip: 'Close da área que preocupa', region: 'extra', optional: true },
+];

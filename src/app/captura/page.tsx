@@ -5,11 +5,12 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import StepProgress from '@/components/StepProgress';
 import DisclaimerModal from '@/components/DisclaimerModal';
-import CameraCapture from '@/components/camera/CameraCapture';
+import PhotoGuide from '@/components/guide/PhotoGuide';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useAnalysis } from '@/hooks/useAnalysis';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import type { CapturedPhoto } from '@/lib/types';
 
 const stepMessages: Record<string, { message: string; subMessage: string }> = {
   validating: {
@@ -18,7 +19,7 @@ const stepMessages: Record<string, { message: string; subMessage: string }> = {
   },
   analyzing: {
     message: 'Analisando sua saúde bucal...',
-    subMessage: 'A IA está identificando condições visíveis',
+    subMessage: 'A IA está analisando todas as fotos',
   },
   generating: {
     message: 'Gerando simulação visual...',
@@ -30,25 +31,28 @@ export default function CapturaPage() {
   const router = useRouter();
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const disclaimerAcceptedRef = useRef(false);
-  const [pendingImage, setPendingImage] = useState<{ base64: string; dataUrl: string } | null>(null);
+  const [pendingPhotos, setPendingPhotos] = useState<CapturedPhoto[] | null>(null);
   const { step, analysisResult, afterImage, error, startAnalysis, reset } = useAnalysis();
 
   const proceedWithAnalysis = useCallback(
-    async (base64: string, dataUrl: string) => {
-      await startAnalysis(base64);
-      sessionStorage.setItem('dentai_image', dataUrl);
+    async (photos: CapturedPhoto[]) => {
+      // Store the frontal image for results page
+      const frontalPhoto = photos.find((p) => p.stepId === 'frente') || photos[0];
+      sessionStorage.setItem('dentai_image', frontalPhoto.dataUrl);
+
+      await startAnalysis(photos.map((p) => ({ stepId: p.stepId, base64: p.base64 })));
     },
     [startAnalysis]
   );
 
-  const handlePhotoReady = useCallback(
-    (base64: string, dataUrl: string) => {
+  const handleAllPhotosReady = useCallback(
+    (photos: CapturedPhoto[]) => {
       if (!disclaimerAcceptedRef.current) {
-        setPendingImage({ base64, dataUrl });
+        setPendingPhotos(photos);
         setShowDisclaimer(true);
         return;
       }
-      proceedWithAnalysis(base64, dataUrl);
+      proceedWithAnalysis(photos);
     },
     [proceedWithAnalysis]
   );
@@ -56,11 +60,11 @@ export default function CapturaPage() {
   const handleDisclaimerAccept = useCallback(() => {
     disclaimerAcceptedRef.current = true;
     setShowDisclaimer(false);
-    if (pendingImage) {
-      proceedWithAnalysis(pendingImage.base64, pendingImage.dataUrl);
-      setPendingImage(null);
+    if (pendingPhotos) {
+      proceedWithAnalysis(pendingPhotos);
+      setPendingPhotos(null);
     }
-  }, [pendingImage, proceedWithAnalysis]);
+  }, [pendingPhotos, proceedWithAnalysis]);
 
   // Navigate to results when analysis is done
   if (step === 'done' && analysisResult) {
@@ -80,7 +84,7 @@ export default function CapturaPage() {
         <StepProgress currentStep={step === 'validating' ? 2 : 3} />
         <LoadingSpinner message={msg.message} subMessage={msg.subMessage} />
         <div className="text-center">
-          <p className="text-xs text-gray-400">Sua foto não é salva em nenhum lugar</p>
+          <p className="text-xs text-gray-400">Suas fotos não são salvas em nenhum lugar</p>
         </div>
       </div>
     );
@@ -97,7 +101,7 @@ export default function CapturaPage() {
             <h2 className="text-lg font-bold text-gray-900">Vamos tentar de novo?</h2>
             <p className="text-sm text-gray-600">{error}</p>
             <Button variant="primary" onClick={reset} className="w-full">
-              Tirar outra foto
+              Tirar novas fotos
             </Button>
           </Card>
         </motion.div>
@@ -108,25 +112,13 @@ export default function CapturaPage() {
   return (
     <div className="space-y-4">
       <StepProgress currentStep={1} />
-
-      <div className="text-center mb-2">
-        <h1 className="text-xl font-bold text-gray-900">Tire uma foto da sua boca</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Use boa iluminação e mantenha a câmera firme
-        </p>
-      </div>
-
-      <CameraCapture
-        onPhotoReady={handlePhotoReady}
-        loading={step !== 'idle'}
-      />
-
+      <PhotoGuide onAllPhotosReady={handleAllPhotosReady} loading={step !== 'idle'} />
       <DisclaimerModal
         isOpen={showDisclaimer}
         onAccept={handleDisclaimerAccept}
         onCancel={() => {
           setShowDisclaimer(false);
-          setPendingImage(null);
+          setPendingPhotos(null);
         }}
       />
     </div>
