@@ -1,16 +1,17 @@
 import { NextResponse } from 'next/server';
 import { getGeminiClient, MODELS } from '@/lib/gemini';
-import { VALIDATION_PROMPT } from '@/lib/prompts';
+import { getValidationPrompt } from '@/lib/prompts';
 
 export async function POST(request: Request) {
   try {
-    const { image } = await request.json();
+    const { image, expectedAngle } = await request.json();
 
     if (!image) {
       return NextResponse.json({ error: 'Imagem não fornecida' }, { status: 400 });
     }
 
     const client = getGeminiClient();
+    const prompt = getValidationPrompt(expectedAngle);
 
     const response = await client.models.generateContent({
       model: MODELS.vision,
@@ -18,7 +19,7 @@ export async function POST(request: Request) {
         {
           role: 'user',
           parts: [
-            { text: VALIDATION_PROMPT },
+            { text: prompt },
             {
               inlineData: {
                 mimeType: 'image/jpeg',

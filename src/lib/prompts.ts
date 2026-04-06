@@ -1,23 +1,40 @@
-export const VALIDATION_PROMPT = `Você é um sistema de validação de imagens odontológicas.
+const ANGLE_DESCRIPTIONS: Record<string, string> = {
+  frente: 'vista frontal com dentes cerrados, lábios afastados mostrando caninos de ambos os lados',
+  direito: 'vista lateral direita com bochecha afastada, mostrando dentes do lado direito',
+  esquerdo: 'vista lateral esquerda com bochecha afastada, mostrando dentes do lado esquerdo',
+  superior: 'arcada superior vista de cima para baixo, boca aberta, mostrando superfície dos dentes de cima',
+  inferior: 'arcada inferior vista de baixo para cima, boca aberta, mostrando superfície dos dentes de baixo',
+  extra: 'close-up de uma área específica da boca',
+};
+
+export function getValidationPrompt(expectedAngle?: string): string {
+  const angleContext = expectedAngle && ANGLE_DESCRIPTIONS[expectedAngle]
+    ? `\n\nÂngulo esperado: ${ANGLE_DESCRIPTIONS[expectedAngle]}\nSe o ângulo da foto não corresponde ao esperado, inclua isso no feedback com orientação clara de como corrigir.`
+    : '';
+
+  return `Você é um sistema de validação de imagens odontológicas.
 
 Analise esta imagem e determine:
 1. Se é uma foto intraoral (cavidade bucal) válida
-2. A qualidade geral da imagem para análise dental (score 0-100)
+2. A qualidade geral da imagem para análise dental (score 0-100)${angleContext}
 
 Responda APENAS em JSON válido, sem markdown, sem comentários:
 {
   "isOralCavity": true/false,
   "qualityScore": 0-100,
-  "feedback": "mensagem curta em português explicando o que pode melhorar ou confirmando que está boa"
+  "feedback": "mensagem curta e direta em português dizendo exatamente o que precisa ajustar (ex: 'Aproxime mais a câmera', 'Melhore a iluminação', 'Mostre mais os dentes do lado direito'). Se estiver boa, confirme."
 }
 
 Critérios de qualidade:
 - Iluminação adequada (não escura, não estourada)
 - Foco aceitável (detalhes dos dentes visíveis)
-- Ângulo que mostra os dentes/gengivas
+- Ângulo correto para a vista solicitada
 - Proximidade adequada (dentes ocupam boa parte da imagem)
+- Dentes/gengivas claramente visíveis
 
-Se não for uma foto intraoral (ex: selfie, objeto, paisagem), retorne qualityScore: 0 e isOralCavity: false.`;
+Se não for uma foto intraoral (ex: selfie, objeto, paisagem), retorne qualityScore: 0 e isOralCavity: false.
+No feedback, seja específico: diga O QUE ajustar (mais luz, mais perto, abrir mais a boca, etc).`;
+}
 
 export const ANALYSIS_PROMPT_SINGLE = `Você é um assistente odontológico de pré-triagem visual. Sua função é educativa e informativa — você NÃO emite diagnóstico clínico.
 

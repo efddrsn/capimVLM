@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import type { PhotoStep, CapturedPhoto } from '@/lib/types';
-import PhotoStepIllustration from './PhotoStepIllustration';
 import PhotoStepProgress from './PhotoStepProgress';
 import Button from '@/components/ui/Button';
 import { PHOTO_STEPS } from '@/lib/types';
@@ -13,7 +12,7 @@ interface StepInstructionProps {
   capturedPhotos: CapturedPhoto[];
   onCapture: () => void;
   onSkip?: () => void;
-  direction: number; // 1 = forward, -1 = back
+  direction: number;
 }
 
 const slideVariants = {
@@ -56,29 +55,25 @@ export default function StepInstruction({
           animate="center"
           exit="exit"
           transition={{ duration: 0.25, ease: 'easeOut' }}
-          className="flex flex-col items-center gap-4 w-full"
+          className="flex flex-col items-center gap-5 w-full"
         >
-          {/* Step number badge */}
+          {/* Step badge */}
           <div className="flex items-center gap-2">
-            {!step.optional && (
+            {!step.optional ? (
               <span className="text-xs font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full">
                 {stepIndex + 1} / 5
               </span>
-            )}
-            {step.optional && (
+            ) : (
               <span className="text-xs font-medium text-gray-400 bg-gray-50 px-2.5 py-1 rounded-full">
                 Opcional
               </span>
             )}
           </div>
 
-          {/* Illustration */}
-          <PhotoStepIllustration stepId={step.id} size={180} />
-
           {/* Title + tip */}
-          <div className="text-center space-y-1">
-            <h2 className="text-lg font-bold text-gray-900">{step.label}</h2>
-            <p className="text-sm text-gray-500">{step.shortTip}</p>
+          <div className="text-center space-y-2">
+            <h2 className="text-xl font-bold text-gray-900">{step.label}</h2>
+            <p className="text-sm text-gray-500 max-w-xs mx-auto">{step.shortTip}</p>
           </div>
 
           {/* Action buttons */}
@@ -89,7 +84,7 @@ export default function StepInstruction({
               </Button>
             )}
             <Button variant="primary" size="lg" onClick={onCapture} className="flex-1">
-              {step.optional ? 'Tirar foto' : 'Tirar foto'}
+              Tirar foto
             </Button>
           </div>
         </motion.div>
